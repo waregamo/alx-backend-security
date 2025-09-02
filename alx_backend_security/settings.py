@@ -1,4 +1,4 @@
-# core/settings.py
+
 from pathlib import Path
 import os
 
@@ -15,7 +15,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "ip_tracking",            # <— our app
+    "ip_tracking",            
     # 'django_ratelimit' is decorator-based; no need to add to INSTALLED_APPS
 ]
 
@@ -33,7 +33,7 @@ MIDDLEWARE = [
     "ip_tracking.middleware.IPTrackingMiddleware",
 ]
 
-ROOT_URLCONF = "core.urls"
+ROOT_URLCONF = "alx_backend_security.urls"
 TEMPLATES = [{
     "BACKEND": "django.template.backends.django.DjangoTemplates",
     "DIRS": [],
@@ -45,7 +45,7 @@ TEMPLATES = [{
         "django.contrib.messages.context_processors.messages",
     ]},
 }]
-WSGI_APPLICATION = "core.wsgi.application"
+WSGI_APPLICATION = "alx_backend_security.wsgi.application"
 
 DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3",
                          "NAME": BASE_DIR / "db.sqlite3"}}
