@@ -1,75 +1,71 @@
 # IP Tracking and Blocking System
 
-This Django project provides IP tracking and blocking functionality. It records request logs (IP, country, city, timestamp) and blocks blacklisted IP addresses from accessing the application.
+A Django-based security application for monitoring, analyzing, and controlling access based on IP addresses.  
+This project enhances application security by tracking incoming requests, enriching logs with geolocation data, blocking blacklisted IPs, applying rate limits, and detecting anomalies.
 
 ---
 
-## Features
-- Track incoming requests with IP address, country, and city.
-- Store request logs in the database.
-- Block blacklisted IPs from accessing the system.
-- Custom Django management command to block IPs.
+##  Features
+- **IP Request Logging** – Record IP address, timestamp, country, city, and request path.  
+- **IP Blacklisting** – Block malicious IPs via a custom Django management command.  
+- **Geolocation Analytics** – Enrich request logs with geolocation data (country & city) using caching.  
+- **Rate Limiting** – Prevent abuse with configurable request limits (via `django-ratelimit`).  
+- **Anomaly Detection** – Automated Celery task flags suspicious IPs (e.g., >100 requests/hour or sensitive paths).  
 
 ---
 
-## Installation
+## ⚙️Installation
 
-1. Clone the repository:
+1. **Clone the repository**  
    git clone https://github.com/waregamo/alx-backend-security.git
    cd alx-backend-security
+## Create and activate a virtual environment
 
-Create and activate a virtual environment:
 
 python3 -m venv .venv
 source .venv/bin/activate
-
-
-Install dependencies:
-
+     Install dependencies
 pip install -r requirements.txt
-
-
-Apply migrations:
-
+      Apply migrations
 python manage.py makemigrations
 python manage.py migrate
-
-
-Run the server:
-
+      Run the server
 python manage.py runserver
 
-Usage
+## Usage
+Visit any route → request logs will be automatically stored.
 
-Visit any route in the app — request logs will be saved.
-
-To block an IP:
-
+Block an IP:
 python manage.py block_ip 127.0.0.1
-
-
-When a blocked IP visits /login/, they will get:
-
+A blocked IP visiting /login/ or any page will see:
 Your IP has been blocked.
- 
 
- Project structure
- alx-backend-security/
-├── manage.py                 # Django entrypoint
-├── alx_backend_security/                     # Main project settings
-│   ├── settings.py           # Installed apps, DB, middleware, etc.
+## Project Structure
+
+alx-backend-security/
+├── manage.py                     # Django entrypoint
+├── alx_backend_security/         # Project settings
+│   ├── settings.py               # Middleware, DB, installed apps
 │   ├── urls.py
 │   ├── wsgi.py
 │   └── asgi.py
-├── ip_tracking/              # Custom app
-│   ├── models.py             # RequestLog, BlockedIP, SuspiciousIP
-│   ├── middleware.py         # Blocks IPs on each request
-│   ├── tasks.py              # Celery anomaly detection
-│   ├── management/commands/  # Custom CLI (block_ip)
-│   ├── migrations/           # DB migrations
-│   ├── views.py
-│   ├── tests.py
-│   └── admin.py
-├── db.sqlite3                # Local SQLite DB
+├── ip_tracking/                  # Custom security app
+│   ├── models.py                 # RequestLog, BlockedIP, SuspiciousIP
+│   ├── middleware.py             # IP logging & blocking
+│   ├── tasks.py                  # Celery anomaly detection
+│   ├── management/commands/      # Custom CLI (block_ip)
+│   ├── migrations/               # DB migrations
+│   ├── views.py                  # Views with rate limiting
+│   ├── tests.py                  # Unit tests
+│   └── admin.py                  # Django admin registration
+├── db.sqlite3                    # Local SQLite database
 ├── requirements.txt
 └── README.md
+
+## 📌 Requirements
+Python 3.8+
+Django 4.x
+django-ipware
+django-ip-geolocation
+django-ratelimit
+Celery + Redis (for background anomaly detection tasks)
